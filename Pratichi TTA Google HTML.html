@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Pratichi Table Tennis Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --court-green:#123A2C;
+    --court-green-light:#1D5A44;
+    --court-green-pale:#E7F0EA;
+    --paddle-red:#E14232;
+    --paddle-red-dark:#B22E22;
+    --ball-white:#FBF8F1;
+    --graphite:#181510;
+    --graphite-soft:#4A463F;
+    --gold:#C9932E;
+    --line:rgba(24,21,16,0.12);
+    --line-light:rgba(251,248,241,0.18);
+    --font-display:'Anton', sans-serif;
+    --font-body:'Work Sans', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--font-body);
+    background:var(--ball-white);
+    color:var(--graphite);
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:74px;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:12px;
+    font-weight:700;
+    color:var(--paddle-red);
+  }
+  .eyebrow.on-dark{color:var(--gold);}
+  h1,h2,h3{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.01em;line-height:1.02;font-weight:400;}
+  section{padding:64px 0;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:var(--font-body);font-weight:700;font-size:15px;
+    padding:14px 26px;border-radius:999px;border:2px solid transparent;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--paddle-red);color:var(--ball-white);}
+  .btn-primary:hover{background:var(--paddle-red-dark);}
+  .btn-outline{background:transparent;border-color:var(--line-light);color:var(--ball-white);}
+  .btn-outline.dark{border-color:var(--graphite);color:var(--graphite);}
+  .btn-ghost{background:transparent;color:inherit;border-bottom:2px solid var(--paddle-red);border-radius:0;padding:4px 2px;font-size:14px;}
+
+  /* TOP BAR */
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    background:var(--ball-white);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;
+  }
+  .topbar .brand{font-family:var(--font-display);font-size:19px;letter-spacing:.02em;}
+  .topbar .brand span{color:var(--paddle-red);}
+  .topbar-right{display:flex;align-items:center;gap:16px;}
+  .topbar nav{display:none;gap:26px;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.04em;}
+  .wa-btn{
+    display:flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:50%;background:#25D366;color:#fff;flex-shrink:0;
+  }
+  .wa-btn svg{width:19px;height:19px;}
+  @media(min-width:840px){
+    .topbar nav{display:flex;}
+    body{padding-bottom:0;}
+    .bottomnav{display:none;}
+  }
+
+  /* HERO */
+  .hero{
+    background:radial-gradient(120% 140% at 15% -10%, var(--court-green-light), var(--court-green) 55%);
+    color:var(--ball-white);
+    padding:56px 0 48px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .wrap{position:relative;z-index:2;}
+  .hero h1{font-size:clamp(40px,10vw,72px);margin:14px 0 18px;}
+  .hero p.lead{font-size:17px;color:rgba(251,248,241,.82);max-width:46ch;margin-bottom:30px;}
+  .hero .cta-row{display:flex;flex-wrap:wrap;gap:12px;}
+  .rally-trail{position:absolute;right:-40px;top:0;height:100%;width:60%;opacity:.5;z-index:1;}
+  @media(min-width:840px){.hero{padding:88px 0 76px;}}
+
+  .stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:40px;border-top:1px solid var(--line-light);padding-top:22px;}
+  .stat-strip div{padding-right:10px;}
+  .stat-strip .num{font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--gold);}
+  .stat-strip .label{font-size:12px;color:rgba(251,248,241,.7);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+
+  /* SECTION HEADS */
+  .sec-head{margin-bottom:34px;max-width:56ch;}
+  .sec-head h2{font-size:clamp(28px,6vw,40px);margin-top:8px;}
+  .sec-head p{color:var(--graphite-soft);margin-top:12px;font-size:15.5px;line-height:1.55;}
+
+  /* VISION */
+  .vision{background:var(--court-green-pale);}
+  .vision-grid{display:grid;gap:18px;grid-template-columns:1fr;}
+  @media(min-width:720px){.vision-grid{grid-template-columns:repeat(3,1fr);}}
+  .vision-card{
+    background:var(--ball-white);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;
+  }
+  .vision-card .ic{width:34px;height:34px;margin-bottom:14px;color:var(--paddle-red);}
+  .vision-card h3{font-family:var(--font-body);font-weight:800;font-size:16px;text-transform:none;margin-bottom:8px;}
+  .vision-card p{font-size:14.5px;color:var(--graphite-soft);line-height:1.55;}
+
+  /* PROGRAMS / PRICING */
+  .tiers{display:grid;gap:18px;grid-template-columns:1fr;}
+  @media(min-width:720px){.tiers{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:1040px){.tiers{grid-template-columns:repeat(4,1fr);}}
+  .tier{
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px 20px 24px;background:var(--ball-white);
+    display:flex;flex-direction:column;gap:14px;position:relative;
+  }
+  .tier.featured{border-color:var(--gold);box-shadow:0 10px 30px -14px rgba(201,147,46,.5);}
+  .tier .badge{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--graphite-soft);display:flex;align-items:center;gap:6px;
+  }
+  .tier .badge.featured{color:var(--gold);font-weight:700;}
+  .tier h3{font-family:var(--font-body);font-weight:800;font-size:20px;text-transform:none;}
+  .tier .price{font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--court-green);}
+  .tier .price .per{font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--graphite-soft);}
+  .tier .freq{font-size:12.5px;color:var(--graphite-soft);margin-top:-8px;font-weight:600;}
+  .tier .bestfor{font-size:13px;color:var(--graphite-soft);font-style:italic;line-height:1.5;padding-bottom:2px;border-bottom:1px dashed var(--line);}
+  .tier ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:14px;color:var(--graphite-soft);}
+  .tier ul li{display:flex;gap:8px;align-items:flex-start;}
+  .tier ul li:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--paddle-red);margin-top:7px;flex-shrink:0;}
+  .tier .growth{font-size:12px;color:var(--graphite-soft);background:var(--court-green-pale);border-radius:8px;padding:8px 10px;line-height:1.4;}
+  .tier .growth b{color:var(--court-green);}
+  .tier .btn{margin-top:auto;width:100%;}
+
+  /* RALLY PASS */
+  .rally-pass{
+    margin-top:22px;border-radius:var(--radius);position:relative;overflow:hidden;
+    background:radial-gradient(130% 160% at 8% -20%, var(--court-green-light), var(--court-green) 62%);
+    color:var(--ball-white);padding:26px 24px;
+    display:flex;flex-direction:column;gap:16px;
+  }
+  @media(min-width:840px){.rally-pass{flex-direction:row;align-items:center;justify-content:space-between;gap:26px;}}
+  .rally-pass .rp-left{max-width:60ch;}
+  .rally-pass .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;}
+  .rally-pass h3{font-family:var(--font-body);font-weight:800;font-size:21px;text-transform:none;margin-bottom:10px;}
+  .rally-pass > .rp-left > p{font-size:14.5px;color:rgba(251,248,241,.82);line-height:1.6;margin-bottom:14px;}
+  .rp-features{list-style:none;display:grid;gap:8px;grid-template-columns:1fr;font-size:13.5px;color:rgba(251,248,241,.88);}
+  @media(min-width:520px){.rp-features{grid-template-columns:1fr 1fr;}}
+  .rp-features li{display:flex;gap:8px;align-items:flex-start;}
+  .rp-features li:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:6px;flex-shrink:0;}
+  .rally-pass .rp-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;gap:12px;}
+  @media(min-width:840px){.rally-pass .rp-right{align-items:flex-end;text-align:right;}}
+  .rp-pricebox{background:rgba(251,248,241,.08);border:1px solid var(--line-light);border-radius:10px;padding:14px 16px;min-width:220px;}
+  .rp-pricebox .rp-price{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--gold);}
+  .rp-pricebox .rp-price span{font-family:var(--font-body);font-size:12px;font-weight:500;color:rgba(251,248,241,.65);}
+  .rp-pricebox .rp-free{font-size:12.5px;color:rgba(251,248,241,.85);margin-top:6px;padding-top:6px;border-top:1px dashed var(--line-light);}
+  .rp-pricebox .rp-free b{color:var(--gold);}
+
+  /* WHY US */
+  .why{background:var(--graphite);color:var(--ball-white);}
+  .why .sec-head p{color:rgba(251,248,241,.7);}
+  .why-grid{display:grid;gap:14px;grid-template-columns:1fr;}
+  @media(min-width:720px){.why-grid{grid-template-columns:repeat(2,1fr);}}
+  .why-card{background:rgba(251,248,241,.05);border:1px solid var(--line-light);border-radius:var(--radius);padding:20px;}
+  .why-card .pp{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);font-weight:700;margin-bottom:8px;}
+  .why-card h3{font-family:var(--font-body);font-weight:800;font-size:16px;text-transform:none;margin-bottom:8px;}
+  .why-card p{font-size:14px;color:rgba(251,248,241,.72);line-height:1.55;margin-bottom:10px;}
+  .why-card .quote{font-family:var(--font-mono);font-size:13px;color:var(--ball-white);border-left:2px solid var(--paddle-red);padding-left:10px;}
+
+  /* COACH / FACILITIES */
+  .coach-grid{display:grid;gap:18px;grid-template-columns:1fr;}
+  @media(min-width:720px){.coach-grid{grid-template-columns:1fr 1fr;}}
+  .feature-card{
+    background:var(--court-green);color:var(--ball-white);
+    border-radius:var(--radius);padding:28px 24px;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .feature-card.alt{background:var(--graphite);}
+  .feature-card .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
+  .feature-card h3{font-family:var(--font-body);font-weight:800;font-size:19px;text-transform:none;}
+  .feature-card p{font-size:14.5px;color:rgba(251,248,241,.78);line-height:1.6;}
+
+  /* REGISTRATION */
+  .register{background:var(--court-green-pale);}
+  .form-card{
+    background:var(--ball-white);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 22px;max-width:560px;margin:0 auto;
+  }
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--graphite-soft);margin-bottom:6px;}
+  .field input,.field select,.field textarea{
+    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:8px;
+    font-family:var(--font-body);font-size:15px;background:var(--ball-white);color:var(--graphite);
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--paddle-red);outline-offset:1px;border-color:var(--paddle-red);}
+  .cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  @media(min-width:520px){.cat-grid{grid-template-columns:repeat(4,1fr);}}
+  .cat-opt{border:1.5px solid var(--line);border-radius:8px;padding:10px 8px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;}
+  .cat-opt input{position:absolute;opacity:0;pointer-events:none;}
+  .cat-opt.checked{border-color:var(--paddle-red);background:rgba(225,66,50,.08);color:var(--paddle-red-dark);}
+  .form-msg{margin-top:14px;font-size:14px;font-weight:600;padding:12px 14px;border-radius:8px;display:none;}
+  .form-msg.show{display:block;}
+  .form-msg.ok{background:#E4F3E8;color:#1E6B3A;}
+
+  /* GEAR / PRO SHOP */
+  .gear{background:var(--ball-white);}
+  .starter-card{
+    display:flex;flex-direction:column;gap:18px;
+    background:radial-gradient(120% 160% at 90% -20%, var(--court-green-light), var(--court-green) 60%);
+    color:var(--ball-white);border-radius:var(--radius);padding:26px 24px;margin-bottom:30px;
+    position:relative;overflow:hidden;
+  }
+  @media(min-width:720px){.starter-card{flex-direction:row;align-items:center;justify-content:space-between;gap:24px;}}
+  .starter-card .sc-left{max-width:60ch;}
+  .starter-card .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:700;}
+  .starter-card h3{font-family:var(--font-body);font-weight:800;font-size:22px;text-transform:none;margin-bottom:10px;}
+  .starter-card p{font-size:14.5px;color:rgba(251,248,241,.82);line-height:1.6;}
+  .starter-card .sc-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+  @media(min-width:720px){.starter-card .sc-right{align-items:flex-end;}}
+  .starter-card .sc-price{font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--gold);}
+  .starter-card .sc-price span{font-family:var(--font-body);font-size:12px;font-weight:500;color:rgba(251,248,241,.65);}
+
+  .service-grid{display:grid;gap:14px;grid-template-columns:1fr;margin-bottom:34px;}
+  @media(min-width:640px){.service-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:1000px){.service-grid{grid-template-columns:repeat(3,1fr);}}
+  .service-card{border:1px solid var(--line);border-radius:var(--radius);padding:18px;display:flex;gap:12px;align-items:flex-start;}
+  .service-card .ic{width:26px;height:26px;color:var(--paddle-red);flex-shrink:0;margin-top:2px;}
+  .service-card h4{font-family:var(--font-body);font-weight:800;font-size:14.5px;text-transform:none;margin-bottom:4px;}
+  .service-card p{font-size:13px;color:var(--graphite-soft);line-height:1.5;}
+
+  .advisor{border:1.5px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--court-green-pale);}
+  .advisor-head{padding:24px 22px 0;}
+  .advisor-head .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paddle-red);font-weight:700;}
+  .advisor-head h3{font-family:var(--font-body);font-weight:800;font-size:19px;text-transform:none;margin:6px 0 6px;}
+  .advisor-head p{font-size:13.5px;color:var(--graphite-soft);line-height:1.5;max-width:56ch;}
+  .advisor-progress{display:flex;gap:6px;padding:18px 22px 0;}
+  .advisor-progress .dot{flex:1;height:4px;border-radius:99px;background:var(--line);transition:background .2s ease;}
+  .advisor-progress .dot.done{background:var(--paddle-red);}
+  .advisor-body{padding:20px 22px 26px;}
+  .adv-step{display:none;}
+  .adv-step.active{display:block;}
+  .adv-q{font-family:var(--font-body);font-weight:800;font-size:16px;margin-bottom:14px;}
+  .adv-opts{display:grid;gap:10px;grid-template-columns:1fr;}
+  @media(min-width:560px){.adv-opts{grid-template-columns:repeat(2,1fr);}}
+  .adv-opt{border:1.5px solid var(--line);background:var(--ball-white);border-radius:10px;padding:13px 14px;text-align:left;cursor:pointer;}
+  .adv-opt .t{font-weight:700;font-size:14px;}
+  .adv-opt .d{font-size:12px;color:var(--graphite-soft);margin-top:3px;line-height:1.4;}
+  .adv-opt.selected{border-color:var(--paddle-red);background:rgba(225,66,50,.07);}
+  .adv-nav{display:flex;justify-content:space-between;margin-top:18px;}
+  .adv-back{font-size:13px;font-weight:700;color:var(--graphite-soft);background:none;border:none;padding:8px 4px;}
+  .adv-result{display:none;}
+  .adv-result.active{display:block;}
+  .result-card{background:var(--ball-white);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:6px;}
+  .result-card .rtag{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--paddle-red);font-weight:700;margin-bottom:8px;}
+  .result-card h4{font-family:var(--font-body);font-weight:800;font-size:18px;margin-bottom:8px;}
+  .result-card p{font-size:14px;color:var(--graphite-soft);line-height:1.6;margin-bottom:12px;}
+  .result-card .rprice{font-family:var(--font-mono);font-weight:700;color:var(--court-green);font-size:16px;}
+  .adv-restart{font-size:12.5px;color:var(--graphite-soft);text-decoration:underline;background:none;border:none;padding:0;margin-top:14px;}
+  .quote-form-wrap{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line);}
+  .quote-sent{display:none;background:#E4F3E8;color:#1E6B3A;border-radius:10px;padding:14px 16px;font-size:14px;font-weight:600;margin-top:6px;}
+  .quote-sent.show{display:block;}
+
+  /* TOURNAMENT HOSTING */
+  .tournament{background:var(--court-green-pale);}
+  .tourn-grid{display:grid;gap:14px;grid-template-columns:1fr;margin-bottom:30px;}
+  @media(min-width:720px){.tourn-grid{grid-template-columns:repeat(3,1fr);}}
+  .tourn-card{background:var(--ball-white);border:1px solid var(--line);border-radius:var(--radius);padding:22px;}
+  .tourn-card .ic{width:30px;height:30px;color:var(--paddle-red);margin-bottom:12px;}
+  .tourn-card h4{font-family:var(--font-body);font-weight:800;font-size:15.5px;text-transform:none;margin-bottom:8px;}
+  .tourn-card p{font-size:13.5px;color:var(--graphite-soft);line-height:1.55;}
+  .org-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  @media(min-width:520px){.org-grid{grid-template-columns:repeat(4,1fr);}}
+  .org-opt{border:1.5px solid var(--line);border-radius:8px;padding:10px 8px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;}
+  .org-opt input{position:absolute;opacity:0;pointer-events:none;}
+  .org-opt.checked{border-color:var(--paddle-red);background:rgba(225,66,50,.08);color:var(--paddle-red-dark);}
+
+  /* FOOTER */
+  footer{background:var(--graphite);color:rgba(251,248,241,.75);padding:44px 0 30px;}
+  .foot-grid{display:grid;gap:26px;grid-template-columns:1fr;margin-bottom:26px;}
+  @media(min-width:720px){.foot-grid{grid-template-columns:2fr 1fr 1fr;}}
+  footer h4{font-family:var(--font-body);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ball-white);margin-bottom:12px;}
+  footer .brand{font-family:var(--font-display);color:var(--ball-white);font-size:20px;margin-bottom:8px;}
+  footer p,footer li{font-size:13.5px;line-height:1.8;}
+  footer ul{list-style:none;}
+  .foot-bottom{border-top:1px solid var(--line-light);padding-top:18px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font-size:12.5px;}
+  #adminLoginLink{font-family:var(--font-mono);text-decoration:underline;color:rgba(251,248,241,.55);}
+
+  /* BOTTOM NAV */
+  .bottomnav{
+    position:fixed;bottom:0;left:0;right:0;z-index:50;
+    background:var(--ball-white);border-top:1px solid var(--line);
+    display:flex;justify-content:space-around;
+    padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+  }
+  .bottomnav a{
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    font-size:10.5px;font-weight:600;color:var(--graphite-soft);
+    padding:4px 6px;flex:1;text-align:center;
+  }
+  .bottomnav a.active{color:var(--paddle-red);}
+  .bottomnav svg{width:21px;height:21px;}
+
+  /* MODAL / ADMIN */
+  .overlay{
+    position:fixed;inset:0;background:rgba(18,58,44,.55);backdrop-filter:blur(2px);
+    display:none;align-items:flex-end;justify-content:center;z-index:100;
+  }
+  .overlay.show{display:flex;}
+  @media(min-width:720px){.overlay{align-items:center;}}
+  .modal{
+    background:var(--ball-white);width:100%;max-width:480px;border-radius:18px 18px 0 0;
+    padding:26px 22px 30px;max-height:88vh;overflow-y:auto;
+  }
+  @media(min-width:720px){.modal{border-radius:16px;}}
+  .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .modal-head h3{font-family:var(--font-display);font-size:22px;}
+  .modal-close{font-size:22px;line-height:1;background:none;border:none;color:var(--graphite-soft);padding:4px;}
+  .hint{font-size:12.5px;color:var(--graphite-soft);margin-top:10px;font-family:var(--font-mono);}
+
+  .admin-panel{position:fixed;inset:0;background:var(--ball-white);z-index:90;overflow-y:auto;display:none;}
+  .admin-panel.show{display:block;}
+  .admin-bar{position:sticky;top:0;background:var(--graphite);color:var(--ball-white);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
+  .admin-bar .brand{font-family:var(--font-display);font-size:18px;}
+  .admin-tabs{display:flex;gap:6px;padding:16px 20px 0;flex-wrap:wrap;}
+  .admin-tab-btn{padding:9px 16px;border-radius:999px;border:1.5px solid var(--line);font-size:13px;font-weight:700;background:var(--ball-white);}
+  .admin-tab-btn.active{background:var(--paddle-red);border-color:var(--paddle-red);color:var(--ball-white);}
+  .admin-section{padding:20px;display:none;}
+  .admin-section.active{display:block;}
+  .admin-field{margin-bottom:14px;}
+  .admin-field label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--graphite-soft);margin-bottom:5px;}
+  .admin-field input,.admin-field textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;font-family:var(--font-body);font-size:14.5px;}
+  .admin-field textarea{min-height:90px;resize:vertical;}
+  .admin-tier-card{border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;}
+  .admin-tier-card h4{font-size:14px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;}
+  .save-bar{position:sticky;bottom:0;background:var(--ball-white);border-top:1px solid var(--line);padding:14px 20px;display:flex;gap:10px;}
+  .reg-row{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:13.5px;}
+  .reg-row .rname{font-weight:700;}
+  .reg-row .rmeta{color:var(--graphite-soft);margin-top:3px;}
+  .empty{color:var(--graphite-soft);font-size:14px;padding:20px 0;}
+  .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--graphite);color:var(--ball-white);padding:10px 18px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:200;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+  .toast.show{opacity:1;}
+
+  /* CHATBOT */
+  .chat-fab{
+    position:fixed;right:18px;bottom:90px;z-index:60;
+    width:56px;height:56px;border-radius:50%;background:var(--paddle-red);color:var(--ball-white);
+    display:flex;align-items:center;justify-content:center;border:none;
+    box-shadow:0 8px 20px -6px rgba(225,66,50,.6);
+  }
+  .chat-fab svg{width:26px;height:26px;}
+  @media(min-width:840px){ .chat-fab{bottom:24px;} }
+
+  .chat-window{
+    position:fixed;right:14px;bottom:154px;z-index:61;
+    width:min(340px, calc(100vw - 28px));height:min(460px, calc(100vh - 220px));
+    background:var(--ball-white);border-radius:16px;overflow:hidden;
+    box-shadow:0 20px 50px -12px rgba(0,0,0,.35);
+    display:none;flex-direction:column;border:1px solid var(--line);
+  }
+  .chat-window.show{display:flex;}
+  @media(min-width:840px){ .chat-window{bottom:90px;} }
+  .chat-head{background:var(--court-green);color:var(--ball-white);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+  .chat-head .t1{font-family:var(--font-body);font-weight:800;font-size:14.5px;}
+  .chat-head .t2{font-size:11.5px;color:rgba(251,248,241,.7);}
+  .chat-head button{background:none;border:none;color:var(--ball-white);font-size:20px;line-height:1;padding:4px;}
+  .chat-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#FAF8F3;}
+  .chat-msg{max-width:82%;padding:9px 12px;border-radius:14px;font-size:13.5px;line-height:1.45;}
+  .chat-msg.bot{background:var(--ball-white);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px;}
+  .chat-msg.user{background:var(--paddle-red);color:var(--ball-white);align-self:flex-end;border-bottom-right-radius:4px;}
+  .chat-quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;flex-shrink:0;}
+  .chat-quick button{font-size:12px;font-weight:600;padding:6px 11px;border-radius:999px;border:1.5px solid var(--line);background:var(--ball-white);}
+  .chat-input-row{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);flex-shrink:0;}
+  .chat-input-row input{flex:1;padding:10px 12px;border:1.5px solid var(--line);border-radius:999px;font-size:13.5px;font-family:var(--font-body);}
+  .chat-input-row button{width:40px;height:40px;border-radius:50%;background:var(--paddle-red);color:var(--ball-white);border:none;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .chat-input-row button svg{width:17px;height:17px;}
+  .chat-badge{position:absolute;top:-2px;right:-2px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--ball-white);}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="brand" id="brandTop">Pratichi <span>TTA</span></div>
+  <div class="topbar-right">
+    <nav>
+      <a href="#vision">Vision</a>
+      <a href="#programs">Pricing</a>
+      <a href="#why">Why Us</a>
+      <a href="#coach">Coach</a>
+      <a href="#gear">Gear</a>
+      <a href="#tournament">Host a Tournament</a>
+      <a href="#register">Register</a>
+    </nav>
+    <a href="#" id="whatsappLink" class="wa-btn" target="_blank" rel="noopener" aria-label="Message us on WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.29-.15-1.71-.84-1.98-.94-.27-.1-.46-.14-.66.15-.2.28-.75.93-.92 1.13-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.71-1.6-2-.17-.28-.02-.44.13-.58.13-.13.29-.34.44-.51.14-.17.19-.29.29-.48.1-.2.05-.36-.02-.51-.07-.15-.66-1.58-.9-2.17-.24-.57-.48-.5-.66-.5-.17-.01-.36-.01-.56-.01-.2 0-.51.07-.78.36-.27.28-1.02 1-1.02 2.44s1.05 2.83 1.19 3.03c.14.19 2.06 3.15 5 4.41.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.12.56-.08 1.71-.7 1.96-1.37.24-.68.24-1.25.17-1.37-.07-.12-.26-.19-.55-.34z"/><path d="M12.02 2C6.5 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.1-1.33A9.94 9.94 0 0012.02 22C17.53 22 22 17.52 22 12S17.53 2 12.02 2zm0 18.15c-1.68 0-3.25-.46-4.6-1.26l-.33-.2-3.03.79.81-2.95-.21-.34a8.14 8.14 0 01-1.26-4.35c0-4.52 3.68-8.19 8.62-8.19 4.6 0 8.34 3.67 8.34 8.19 0 4.52-3.74 8.31-8.34 8.31z"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="eyebrow on-dark">Table Tennis Academy · Hyderabad</div>
+    <h1 id="heroName">Pratichi<br>Table Tennis<br>Academy</h1>
+    <p class="lead" id="heroTagline">Structured coaching from first serve to competitive mastery — every session measured, every player benchmarked.</p>
+    <div class="cta-row">
+      <a href="#register" class="btn btn-primary">Register Now</a>
+      <a href="#programs" class="btn btn-outline">See Pricing</a>
+    </div>
+    <div class="stat-strip">
+      <div><div class="num">4</div><div class="label">Skill Tiers</div></div>
+      <div><div class="num">1:1</div><div class="label">Robot Drilling</div></div>
+      <div><div class="num">100%</div><div class="label">Tracked Progress</div></div>
+    </div>
+  </div>
+  <svg class="rally-trail" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M20 40 Q 180 90 60 180 Q -40 260 140 300 Q 300 335 180 420 Q 90 480 260 470" stroke="rgba(251,248,241,0.22)" stroke-width="2" stroke-dasharray="2 10" stroke-linecap="round"/>
+    <circle cx="20" cy="40" r="7" fill="#C9932E"/>
+    <circle cx="180" cy="420" r="9" fill="#E14232"/>
+  </svg>
+</section>
+
+<!-- VISION -->
+<section class="vision" id="vision">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Our Vision</div>
+      <h2>Development you can measure</h2>
+      <p id="visionText">We build table tennis ability the way a coach builds a rally — point by point, structured, and repeatable. Every player follows a defined pathway from Foundation to Elite, with a monthly assessment and an Individual Development Plan tracking footwork, stroke consistency, and match temperament — guided by our NIS-certified head coach and reinforced with robotic ball-feed training for precise, data-backed practice.</p>
+    </div>
+    <div class="vision-grid">
+      <div class="vision-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19h16M4 19V9l5-4 5 4v10M9 19v-6h6v6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>Structured curriculum</h3>
+        <p>Every tier has a defined skill checklist — grip, footwork, spin, tactics — so progress is a checklist, not a guess.</p>
+      </div>
+      <div class="vision-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke-linecap="round"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke-linecap="round"/></svg>
+        <h3>NIS-certified coaching</h3>
+        <p>Sessions led by our NIS-certified head coach, with a coaching-to-player ratio that stays low as players move up a tier.</p>
+      </div>
+      <div class="vision-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="10" rx="2"/><path d="M7 8V6a2 2 0 012-2h6a2 2 0 012 2v2M9 13h.01M15 13h.01" stroke-linecap="round"/></svg>
+        <h3>Robot-assisted drilling</h3>
+        <p>Precision ball-feed training builds repeatable strokes at controlled speed and spin — practice that's consistent every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS / PRICING -->
+<section id="programs">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Programs &amp; Pricing</div>
+      <h2>Four tiers, one pathway</h2>
+      <p>Categories are based on playing level, not age — every player joins where their game actually is, and moves up the pathway as their game does.</p>
+    </div>
+    <div class="tiers" id="tiersWrap"></div>
+
+    <div class="rally-pass">
+      <div class="rp-left">
+        <div class="tag">New · Add-on Membership</div>
+        <h3>Rally Pass — unlimited practice, unlimited racket care</h3>
+        <p>One membership, two benefits: open-play table &amp; robot access outside your coaching hours, plus unlimited re-pasting, regripping and racket health checks all year — instead of paying for each visit separately.</p>
+        <ul class="rp-features">
+          <li>Open-play &amp; robot table access outside batch hours</li>
+          <li>Unlimited rubber re-pasting &amp; regripping</li>
+          <li>Free racket health checks all year</li>
+          <li>Priority slot booking on tables</li>
+        </ul>
+      </div>
+      <div class="rp-right">
+        <div class="rp-pricebox">
+          <div class="rp-price">₹1,499 <span>/ year</span></div>
+          <div class="rp-free">Elite students get the Rally Pass <b>free</b> — automatically included.</div>
+        </div>
+        <a href="#register" class="btn btn-primary" id="rallyPassCta">Add Rally Pass</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why" id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow on-dark">Why Pratichi</div>
+      <h2>What most academies get wrong</h2>
+      <p>We built the program around the five things parents tell us they wish coaching did better.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="pp">Pain point — Lack of individual attention</div>
+        <h3>An Individual Development Plan for every student</h3>
+        <p>Instead of one coach running a large batch through identical drills, each player gets a development plan built around their own strengths and weaknesses, guided by our NIS-certified coach.</p>
+        <div class="quote">"Not every child gets the same training."</div>
+      </div>
+      <div class="why-card">
+        <div class="pp">Pain point — Progress you can't see</div>
+        <h3>A monthly assessment and progress report</h3>
+        <p>Parents often pay fees for months without knowing what's actually improved. We report on technique, consistency, footwork, serves, and match skills every month.</p>
+        <div class="quote">"See your child's progress, not just hear about it."</div>
+      </div>
+      <div class="why-card">
+        <div class="pp">Pain point — Coaching that plateaus</div>
+        <h3>A complete player development pathway</h3>
+        <p>Many students learn strokes, play matches, and stop there. Ours is a defined pathway: Assessment → Coaching → Robot Practice → Match Practice → Tournament → Review → Next Training Plan.</p>
+        <div class="quote">"A clear pathway from learning to competition."</div>
+      </div>
+      <div class="why-card">
+        <div class="pp">Pain point — Not enough quality repetition</div>
+        <h3>Robot-assisted structured repetition</h3>
+        <p>A human coach can't feed the same shot at the same pace hundreds of times. Our training robot can — freeing the coach to focus on correction and tactics instead of just feeding balls.</p>
+        <div class="quote">"More quality repetitions. Better use of coaching time."</div>
+      </div>
+      <div class="why-card">
+        <div class="pp">Pain point — Location &amp; convenience</div>
+        <h3>A high-quality neighbourhood academy</h3>
+        <p>Long travel times and hard-to-find slots keep families away. We serve Alkapur, Manikonda, and Narsingi with convenient morning and evening batches on a clearly defined schedule.</p>
+        <div class="quote">"High-quality coaching close to home."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COACH / FACILITIES -->
+<section id="coach" style="background:var(--ball-white);">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Coaching &amp; Facilities</div>
+      <h2>Who and what trains you</h2>
+    </div>
+    <div class="coach-grid">
+      <div class="feature-card">
+        <div class="tag">Head Coach</div>
+        <h3>NIS-Certified Head Coach</h3>
+        <p>Our head coach holds NIS certification and has trained players across every level, from first-time beginners to district and state-level competitors. Coaching focuses on technique correction, match temperament, and tournament readiness — with individual attention that increases as players move up the pathway.</p>
+      </div>
+      <div class="feature-card alt">
+        <div class="tag">Training Technology</div>
+        <h3>Table Tennis Robot</h3>
+        <p>Our ball-feed robot delivers controlled spin, speed, and placement so players can drill a single stroke hundreds of times with consistent input — something a human feeder can't match. Advanced and Elite players get dedicated robot sessions built into their weekly schedule.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GEAR / PRO SHOP -->
+<section class="gear" id="gear">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Pro Shop &amp; Racket Lab</div>
+      <h2>Gear that grows with your game</h2>
+      <p>We sell table tennis rackets, blades, and rubbers — and we build and service them in-house: re-pasting, regripping, edge taping, and full racket health checks. New players start on one simple, reliable racket; every upgrade after that is a coach recommendation, not a guess.</p>
+    </div>
+
+    <div class="starter-card">
+      <div class="sc-left">
+        <div class="tag">Recommended First Racket</div>
+        <h3>GKI Hotshot — start here</h3>
+        <p>Every new student starts on the same simple, sturdy racket — not because it's cheap, but because it's the right benchmark. Once our coach has watched how you actually play — your grip, your instincts, your shot preference — we tell you exactly what to upgrade to next, instead of guessing on day one.</p>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">₹450 <span>/ racket</span></div>
+        <a href="#advisor" class="btn btn-primary">Get the Starter Racket</a>
+      </div>
+    </div>
+
+    <div class="service-grid">
+      <div class="service-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="12" rx="2"/><path d="M9 21h6M12 15v6" stroke-linecap="round"/></svg>
+        <div><h4>Blade + rubber assembly</h4><p>Pick a blade and rubber combo — or tell us your budget and playing style — and we'll build the racket for you.</p></div>
+      </div>
+      <div class="service-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 0116 0M4 12a8 8 0 008 8M4 12H2m18 0h2" stroke-linecap="round"/></svg>
+        <div><h4>Rubber re-pasting</h4><p>Fresh rubber, correctly glued and edge-taped — brings back tackiness and speed on a racket that's gone dead.</p></div>
+      </div>
+      <div class="service-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 15.7 7.1 18.2 8 12.7 4 8.8l5.5-.8z" stroke-linejoin="round"/></svg>
+        <div><h4>Grip &amp; balance tuning</h4><p>Handle re-wrapping, edge tape, and weight balancing so the racket actually fits your hand and swing.</p></div>
+      </div>
+      <div class="service-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4M12 3l7 4v5c0 5-3.4 8.4-7 9-3.6-.6-7-4-7-9V7z" stroke-linejoin="round"/></svg>
+        <div><h4>Tournament-legality check</h4><p>We check rubber colour, thickness, and condition against current rules before a tournament — so nothing gets flagged at the table.</p></div>
+      </div>
+      <div class="service-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2-7 4 14 2-7h6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><h4>Offensive / defensive builds</h4><p>Custom combinations for loopers, blockers, choppers, and all-rounders once your coach has seen your game develop.</p></div>
+      </div>
+      <div class="service-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2" stroke-linecap="round"/></svg>
+        <div><h4>Racket health check</h4><p>Free check-up on rubber tackiness, blade condition, and grip wear whenever you bring your racket in.</p></div>
+      </div>
+    </div>
+
+    <div class="advisor" id="advisor">
+      <div class="advisor-head">
+        <div class="tag">Racket Advisor</div>
+        <h3>Not sure what to upgrade to? Answer 3 quick questions.</h3>
+        <p>This isn't a checkout — it's a starting point. Answer a few questions about your game and we'll put together a personalised racket recommendation and quotation for you.</p>
+      </div>
+      <div class="advisor-progress" id="advProgress">
+        <div class="dot" data-dot="1"></div>
+        <div class="dot" data-dot="2"></div>
+        <div class="dot" data-dot="3"></div>
+      </div>
+      <div class="advisor-body">
+
+        <div class="adv-step active" data-step="1">
+          <div class="adv-q">1. Where are you in your game right now?</div>
+          <div class="adv-opts">
+            <button type="button" class="adv-opt" data-q="level" data-v="beginner">
+              <div class="t">Just starting out</div><div class="d">New to the sport, or a few sessions in</div>
+            </button>
+            <button type="button" class="adv-opt" data-q="level" data-v="recreational">
+              <div class="t">Recreational</div><div class="d">Play sometimes, comfortable with the basics</div>
+            </button>
+            <button type="button" class="adv-opt" data-q="level" data-v="club">
+              <div class="t">Club-level</div><div class="d">Regular practice, know spin, footwork &amp; tactics</div>
+            </button>
+            <button type="button" class="adv-opt" data-q="level" data-v="competitive">
+              <div class="t">Competitive</div><div class="d">Play tournaments, want a real performance edge</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="adv-step" data-step="2">
+          <div class="adv-q">2. How do you like to play?</div>
+          <div class="adv-opts">
+            <button type="button" class="adv-opt" data-q="style" data-v="allround">
+              <div class="t">All-round</div><div class="d">A bit of everything — attack and defence</div>
+            </button>
+            <button type="button" class="adv-opt" data-q="style" data-v="attack">
+              <div class="t">Attacking / looping</div><div class="d">I like to hit hard and spin the ball</div>
+            </button>
+            <button type="button" class="adv-opt" data-q="style" data-v="defence">
+              <div class="t">Defensive / control</div><div class="d">I like consistency, placement, and patience</div>
+            </button>
+            <button type="button" class="adv-opt" data-q="style" data-v="unsure">
+              <div class="t">Not sure yet</div><div class="d">Happy to let the coach help figure it out</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="adv-step" data-step="3">
+          <div class="adv-q">3. Which grip do you play with?</div>
+          <div class="adv-opts">
+            <button type="button" class="adv-opt" data-q="grip" data-v="shakehand">
+              <div class="t">Shakehand</div><div class="d">Hold it like shaking hands — most common grip</div>
+            </button>
+            <button type="button" class="adv-opt" data-q="grip" data-v="penhold">
+              <div class="t">Penhold</div><div class="d">Hold it like a pen</div>
+            </button>
+            <button type="button" class="adv-opt" data-q="grip" data-v="unsure">
+              <div class="t">Not sure</div><div class="d">Our coach can check this in one minute</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="adv-nav">
+          <button type="button" class="adv-back" id="advBack" style="visibility:hidden;">&larr; Back</button>
+        </div>
+
+        <div class="adv-result" id="advResult">
+          <div class="result-card" id="advResultCard"></div>
+          <div class="quote-form-wrap" id="quoteFormWrap">
+            <div class="field">
+              <label for="qName">Your name</label>
+              <input type="text" id="qName" required placeholder="Full name">
+            </div>
+            <div class="field">
+              <label for="qPhone">Phone number</label>
+              <input type="tel" id="qPhone" required placeholder="10-digit mobile number">
+            </div>
+            <button type="button" class="btn btn-primary" id="qSubmit" style="width:100%;">Get My Exact Quotation</button>
+            <div class="quote-sent" id="quoteSent">Thanks! We've noted your racket profile — our coach will send your exact quotation shortly.</div>
+          </div>
+          <button type="button" class="adv-restart" id="advRestart">Start over</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOURNAMENT HOSTING -->
+<section class="tournament" id="tournament">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Community &amp; Outreach</div>
+      <h2>Want us to host a tournament at your school or housing society?</h2>
+      <p>We bring the coach, the equipment, tables, scoring and a format that fits your group — knockout, round robin, or a mixed fun format for all ages. Share a few details below and our team will call you back to work out the specifics.</p>
+    </div>
+
+    <div class="tourn-grid">
+      <div class="tourn-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8h14M7 8a5 5 0 0010 0" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>School Tournaments</h4>
+        <p>Inter-class or inter-school events with proper brackets, umpiring, and prizes — a great sports-week or annual-day addition.</p>
+      </div>
+      <div class="tourn-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V10l8-6 8 6v11M9 21v-6h6v6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Housing Society / Apartment Events</h4>
+        <p>A weekend tournament for residents of all ages — a fun way to bring a community together, with categories for kids, adults, and seniors.</p>
+      </div>
+      <div class="tourn-card">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke-linecap="round"/></svg>
+        <h4>Corporate &amp; Community Events</h4>
+        <p>Office tournaments, team-bonding sessions, or community club events — fully organised, from setup to prize distribution.</p>
+      </div>
+    </div>
+
+    <form class="form-card" id="tournForm">
+      <div class="field">
+        <label>Where will this be held?</label>
+        <div class="org-grid" id="orgGrid">
+          <label class="org-opt" data-key="school"><input type="radio" name="orgType" value="School" checked>School</label>
+          <label class="org-opt" data-key="housing"><input type="radio" name="orgType" value="Housing Society">Housing Society</label>
+          <label class="org-opt" data-key="corporate"><input type="radio" name="orgType" value="Corporate">Corporate</label>
+          <label class="org-opt" data-key="other"><input type="radio" name="orgType" value="Other">Other</label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="tName">Contact person</label>
+        <input type="text" id="tName" required placeholder="Your name">
+      </div>
+      <div class="field">
+        <label for="tPhone">Phone number</label>
+        <input type="tel" id="tPhone" required placeholder="10-digit mobile number">
+      </div>
+      <div class="field">
+        <label for="tVenue">School / society / company name &amp; area</label>
+        <input type="text" id="tVenue" required placeholder="e.g. Green Meadows Apartments, Manikonda">
+      </div>
+      <div class="field">
+        <label for="tParticipants">Expected number of participants</label>
+        <input type="text" id="tParticipants" placeholder="e.g. 30–40 players">
+      </div>
+      <div class="field">
+        <label for="tDate">Preferred date(s)</label>
+        <input type="text" id="tDate" placeholder="e.g. a weekend in November">
+      </div>
+      <div class="field">
+        <label for="tMsg">Anything else we should know?</label>
+        <textarea id="tMsg" rows="3" placeholder="Age groups, indoor/outdoor space, number of tables available, budget expectations, etc."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Request a Callback</button>
+      <div class="form-msg ok" id="tournMsg">Thanks! Our team will call you back to work out the details of your tournament.</div>
+    </form>
+  </div>
+</section>
+
+<!-- REGISTRATION -->
+<section class="register" id="register">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Join the Academy</div>
+      <h2>Register your spot</h2>
+      <p>Pick the category that matches your current playing level. Our coach will confirm your batch after a quick assessment.</p>
+    </div>
+    <form class="form-card" id="regForm">
+      <div class="field">
+        <label for="rName">Full name</label>
+        <input type="text" id="rName" required placeholder="Player's full name">
+      </div>
+      <div class="field">
+        <label for="rPhone">Phone number</label>
+        <input type="tel" id="rPhone" required placeholder="10-digit mobile number">
+      </div>
+      <div class="field">
+        <label for="rEmail">Email</label>
+        <input type="email" id="rEmail" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <div class="cat-grid" id="catGrid"></div>
+      </div>
+      <div class="field">
+        <label for="rBatch">Preferred batch</label>
+        <select id="rBatch">
+          <option value="Morning">Morning</option>
+          <option value="Evening">Evening</option>
+          <option value="Either">Either works</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="rMsg">Notes (optional)</label>
+        <textarea id="rMsg" rows="3" placeholder="Playing experience, goals, injuries, etc."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Submit Registration</button>
+      <div class="form-msg ok" id="regMsg">Registration received — our coach will call you to confirm your batch.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" id="brandFoot">Pratichi TTA</div>
+        <p style="max-width:38ch;">Structured, measurable table tennis coaching for every level — from first serve to state-level competition.</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li id="footPhone">+91 98XXXXXX00</li>
+          <li id="footEmail">hello@pratichitta.in</li>
+          <li id="footAddr">Alkapur · Manikonda · Narsingi, Hyderabad</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Academy</h4>
+        <ul>
+          <li><a href="#vision">Our Vision</a></li>
+          <li><a href="#programs">Programs &amp; Pricing</a></li>
+          <li><a href="#why">Why Pratichi</a></li>
+          <li><a href="#coach">Coach &amp; Facilities</a></li>
+          <li><a href="#gear">Gear &amp; Racket Lab</a></li>
+          <li><a href="#tournament">Host a Tournament</a></li>
+          <li><a href="#register">Register</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="yearNow"></span> Pratichi Table Tennis Academy</span>
+      <a href="#" id="adminLoginLink">Admin Login</a>
+    </div>
+  </div>
+</footer>
+
+<!-- BOTTOM NAV -->
+<nav class="bottomnav">
+  <a href="#home" class="active" data-sec="home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M4 19V9l5-4 5 4v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Home
+  </a>
+  <a href="#vision" data-sec="vision">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8" stroke-linecap="round"/><circle cx="12" cy="12" r="2.5"/></svg>
+    Vision
+  </a>
+  <a href="#programs" data-sec="programs">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h12M6 8h12M9 13c6.2 0 6.2-9 0-9M6 13h4M6 13l8.5 8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Pricing
+  </a>
+  <a href="#coach" data-sec="coach">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7" stroke-linecap="round"/></svg>
+    Coach
+  </a>
+  <a href="#gear" data-sec="gear">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke-linecap="round"/></svg>
+    Gear
+  </a>
+  <a href="#register" data-sec="register">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+    Join
+  </a>
+</nav>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="overlay" id="loginOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Admin Login</h3>
+      <button class="modal-close" id="closeLogin">&times;</button>
+    </div>
+    <form id="loginForm">
+      <div class="field">
+        <label for="adminUser">Username</label>
+        <input type="text" id="adminUser" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="adminPass">Password</label>
+        <input type="password" id="adminPass" required autocomplete="current-password">
+      </div>
+      <div class="form-msg" id="loginErr" style="background:#FBE7E5;color:#B22E22;">Incorrect username or password.</div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:6px;">Log In</button>
+      <p class="hint">Demo credentials — username: <strong>admin</strong>, password: <strong>academy2026</strong>.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-bar">
+    <div class="brand">Admin Panel</div>
+    <button class="btn btn-outline" id="logoutBtn" style="border-color:rgba(251,248,241,.4);">Log Out</button>
+  </div>
+  <div class="admin-tabs">
+    <button class="admin-tab-btn active" data-tab="content">Site Content</button>
+    <button class="admin-tab-btn" data-tab="pricing">Pricing</button>
+    <button class="admin-tab-btn" data-tab="regs">Registrations</button>
+    <button class="admin-tab-btn" data-tab="security">Security</button>
+  </div>
+
+  <div class="admin-section active" data-panel="content">
+    <div class="admin-field"><label>Academy name</label><input id="edName" type="text"></div>
+    <div class="admin-field"><label>Hero tagline</label><textarea id="edTagline"></textarea></div>
+    <div class="admin-field"><label>Vision statement</label><textarea id="edVision" style="min-height:130px;"></textarea></div>
+    <div class="admin-field"><label>Phone</label><input id="edPhone" type="text"></div>
+    <div class="admin-field"><label>WhatsApp number (digits only)</label><input id="edWhatsapp" type="text"></div>
+    <div class="admin-field"><label>Email</label><input id="edEmail" type="text"></div>
+    <div class="admin-field"><label>Address</label><input id="edAddr" type="text"></div>
+  </div>
+
+  <div class="admin-section" data-panel="pricing">
+    <div id="tierEditors"></div>
+  </div>
+
+  <div class="admin-section" data-panel="regs">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <span style="font-size:13px;color:var(--graphite-soft);" id="regCount">0 registrations</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-outline dark" id="exportCsv" style="padding:9px 16px;font-size:13px;">Export CSV</button>
+        <button class="btn btn-outline dark" id="clearRegs" style="padding:9px 16px;font-size:13px;">Clear All</button>
+      </div>
+    </div>
+    <div id="regList"></div>
+
+    <div style="margin-top:26px;padding-top:18px;border-top:1px solid var(--line);">
+      <div style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;">Chatbot Leads</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span style="font-size:13px;color:var(--graphite-soft);" id="chatLeadCount">0 chat leads</span>
+        <button class="btn btn-outline dark" id="clearChatLeads" style="padding:9px 16px;font-size:13px;">Clear All</button>
+      </div>
+      <div id="chatLeadList"></div>
+    </div>
+
+    <div style="margin-top:26px;padding-top:18px;border-top:1px solid var(--line);">
+      <div style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;">Gear &amp; Racket Quotation Requests</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span style="font-size:13px;color:var(--graphite-soft);" id="gearLeadCount">0 quotation requests</span>
+        <button class="btn btn-outline dark" id="clearGearLeads" style="padding:9px 16px;font-size:13px;">Clear All</button>
+      </div>
+      <div id="gearLeadList"></div>
+    </div>
+
+    <div style="margin-top:26px;padding-top:18px;border-top:1px solid var(--line);">
+      <div style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;">Tournament Hosting Requests</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span style="font-size:13px;color:var(--graphite-soft);" id="tournLeadCount">0 tournament requests</span>
+        <button class="btn btn-outline dark" id="clearTournLeads" style="padding:9px 16px;font-size:13px;">Clear All</button>
+      </div>
+      <div id="tournLeadList"></div>
+    </div>
+  </div>
+
+  <div class="admin-section" data-panel="security">
+    <div class="admin-field"><label>Admin username</label><input id="edAdminUser" type="text"></div>
+    <div class="admin-field"><label>New password</label><input id="edAdminPass" type="password" placeholder="Leave blank to keep current"></div>
+  </div>
+
+  <div class="save-bar">
+    <button class="btn btn-primary" id="saveAll" style="flex:1;">Save Changes</button>
+    <button class="btn btn-outline dark" id="previewSite" style="flex:1;">View Site</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- CHATBOT -->
+<button class="chat-fab" id="chatFab" aria-label="Chat with us">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span class="chat-badge" id="chatBadge"></span>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-head">
+    <div>
+      <div class="t1" id="chatHeadName">Pratichi TTA</div>
+      <div class="t2">Usually replies within a few hours</div>
+    </div>
+    <button id="chatClose" aria-label="Close chat">&times;</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-quick" id="chatQuick"></div>
+  <form class="chat-input-row" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off">
+    <button type="submit" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+    </button>
+  </form>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // Configuration for Google Sheets / Google Forms web app backend
+  // Replace this URL with your deployed Google Apps Script Web App URL
+  var GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyp5Vn9Ml6INOhLqeUY-tjMf_oaqcSSHFnN2BeKQx4PX0oPaBNgeMxGEWbBQRSZaLEO/exec";
+
+  var DATA_KEY = 'ttacademy_data_v1';
+  var REG_KEY  = 'ttacademy_registrations_v1';
+  var AUTH_KEY = 'ttacademy_admin_v1';
+  var CHAT_KEY = 'ttacademy_chat_leads_v1';
+  var GEAR_LEADS_KEY = 'ttacademy_gear_leads_v1';
+  var TOURN_KEY = 'ttacademy_tournament_leads_v1';
+
+  var defaultData = {
+    name: "Pratichi Table Tennis Academy",
+    shortName: "Pratichi TTA",
+    tagline: "Structured coaching from first serve to competitive mastery — every session measured, every player benchmarked.",
+    vision: "We build table tennis ability the way a coach builds a rally — point by point, structured, and repeatable.",
+    phone: "+91 7044071557",
+    whatsapp: "917044071557",
+    email: "hello@pratichitta.in",
+    address: "Alkapur · Manikonda · Narsingi, Hyderabad",
+    tiers: [
+      { key:"foundation", badge:"Foundation", icon:"🟢", name:"Foundation", price:5000, priceMax:null, frequency:"3 days / week", bestFor:"Beginners", features:["Coach-led training","Basic serve & receive"], growth:"Foundation → Development" },
+      { key:"development", badge:"Development", icon:"🔵", name:"Development", price:7000, priceMax:null, frequency:"5 days / week", bestFor:"Players with basic skills", features:["5-day coach-led training","Robot-assisted practice"], growth:"Development → Performance" },
+      { key:"performance", badge:"Performance", icon:"🔴", name:"Performance", price:10000, priceMax:null, frequency:"5 days / week", bestFor:"Intermediate players", features:["NIS coach","Video analysis"], growth:"Performance → Elite" },
+      { key:"elite", badge:"Elite", icon:"🏆", name:"Elite", price:12000, priceMax:15000, frequency:"5+ days / week", bestFor:"Competitive players", features:["Individual plan","Rally Pass included"], growth:"State / National pathway" }
+    ]
+  };
+
+  var defaultAuth = { user: "admin", pass: "academy2026" };
+
+  function loadData(){ try{ var r = localStorage.getItem(DATA_KEY); if(r) return JSON.parse(r); }catch(e){} return defaultData; }
+  function saveData(d){ localStorage.setItem(DATA_KEY, JSON.stringify(d)); }
+  function loadAuth(){ try{ var r = localStorage.getItem(AUTH_KEY); if(r) return JSON.parse(r); }catch(e){} return defaultAuth; }
+  function saveAuth(a){ localStorage.setItem(AUTH_KEY, JSON.stringify(a)); }
+  function loadRegs(){ try{ var r = localStorage.getItem(REG_KEY); if(r) return JSON.parse(r); }catch(e){} return []; }
+  function saveRegs(r){ localStorage.setItem(REG_KEY, JSON.stringify(r)); }
+  function loadChatLeads(){ try{ var r = localStorage.getItem(CHAT_KEY); if(r) return JSON.parse(r); }catch(e){} return []; }
+  function saveChatLeads(c){ localStorage.setItem(CHAT_KEY, JSON.stringify(c)); }
+  function loadGearLeads(){ try{ var r = localStorage.getItem(GEAR_LEADS_KEY); if(r) return JSON.parse(r); }catch(e){} return []; }
+  function saveGearLeads(g){ localStorage.setItem(GEAR_LEADS_KEY, JSON.stringify(g)); }
+  function loadTournLeads(){ try{ var r = localStorage.getItem(TOURN_KEY); if(r) return JSON.parse(r); }catch(e){} return []; }
+  function saveTournLeads(t){ localStorage.setItem(TOURN_KEY, JSON.stringify(t)); }
+
+  var state = loadData();
+
+  function escapeHtml(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function fmtINR(n){ return "₹" + Number(n).toLocaleString('en-IN'); }
+  function fmtPrice(t){ return t.priceMax ? fmtINR(t.price) + '–' + fmtINR(t.priceMax) : fmtINR(t.price); }
+
+  function sendToGoogleSheets(formType, payload){
+    if(!GOOGLE_SCRIPT_URL) return;
+    payload.formType = formType;
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).catch(function(e){ console.error("Sheet send error", e); });
+  }
+
+  function showToast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 3000);
+  }
+
+  function renderPublic(){
+    document.getElementById('brandTop').innerHTML = state.shortName.replace(/(TTA)$/,'<span>$1</span>');
+    document.getElementById('brandFoot').textContent = state.shortName;
+    document.getElementById('heroName').innerHTML = state.name.replace(/ Table Tennis Academy$/i,'<br>Table Tennis<br>Academy');
+    document.getElementById('heroTagline').textContent = state.tagline;
+    document.getElementById('visionText').textContent = state.vision;
+    document.getElementById('footPhone').textContent = state.phone;
+    document.getElementById('footEmail').textContent = state.email;
+    document.getElementById('footAddr').textContent = state.address;
+    document.getElementById('yearNow').textContent = new Date().getFullYear();
+
+    var tiersWrap = document.getElementById('tiersWrap');
+    tiersWrap.innerHTML = state.tiers.map(function(t){
+      var f = t.key === 'elite' ? 'featured' : '';
+      return '<div class="tier ' + f + '">' +
+        '<div class="badge ' + f + '">' + (t.icon||'') + ' ' + escapeHtml(t.badge) + '</div>' +
+        '<h3>' + escapeHtml(t.name) + '</h3>' +
+        '<div class="price">' + fmtPrice(t) + ' <span class="per">/ month</span></div>' +
+        '<div class="freq">' + escapeHtml(t.frequency||'') + '</div>' +
+        '<ul>' + t.features.map(function(feat){ return '<li>' + escapeHtml(feat) + '</li>'; }).join('') + '</ul>' +
+        '<a href="#register" class="btn ' + (f ? 'btn-primary' : 'btn-outline dark') + '" data-precat="' + t.key + '">Choose ' + escapeHtml(t.name) + '</a>' +
+      '</div>';
+    }).join('');
+
+    var catGrid = document.getElementById('catGrid');
+    catGrid.innerHTML = state.tiers.map(function(t, i){
+      return '<label class="cat-opt" data-key="' + t.key + '">' +
+        '<input type="radio" name="category" value="' + t.key + '" ' + (i===0?'checked':'') + '>' + escapeHtml(t.name) +
+      '</label>';
+    }).join('');
+    syncCatVisual();
+  }
+
+  function syncCatVisual(){
+    document.querySelectorAll('.cat-opt').forEach(function(opt){
+      opt.classList.toggle('checked', opt.querySelector('input').checked);
+    });
+  }
+  function syncOrgVisual(){
+    document.querySelectorAll('.org-opt').forEach(function(opt){
+      opt.classList.toggle('checked', opt.querySelector('input').checked);
+    });
+  }
+  document.addEventListener('change', function(e){
+    if(e.target.name === 'category') syncCatVisual();
+    if(e.target.name === 'orgType') syncOrgVisual();
+  });
+
+  /* REGISTRATION FORM */
+  document.getElementById('regForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var cat = document.querySelector('input[name="category"]:checked');
+    var data = {
+      id: Date.now(), date: new Date().toISOString(),
+      name: document.getElementById('rName').value.trim(),
+      phone: document.getElementById('rPhone').value.trim(),
+      email: document.getElementById('rEmail').value.trim(),
+      category: cat ? cat.value : '',
+      batch: document.getElementById('rBatch').value,
+      notes: document.getElementById('rMsg').value.trim()
+    };
+    var regs = loadRegs(); regs.unshift(data); saveRegs(regs);
+    sendToGoogleSheets("Registration", data);
+    this.reset(); syncCatVisual();
+    var msg = document.getElementById('regMsg'); msg.classList.add('show');
+    setTimeout(function(){ msg.classList.remove('show'); }, 4000);
+  });
+
+  /* GEAR ADVISOR */
+  var advSteps = Array.prototype.slice.call(document.querySelectorAll('.adv-step'));
+  var advDots = Array.prototype.slice.call(document.querySelectorAll('.advisor-progress .dot'));
+  var advBack = document.getElementById('advBack');
+  var advAnswers = {}, advCurrent = 1;
+
+  function showAdvStep(n){
+    advCurrent = n;
+    advSteps.forEach(function(s){ s.classList.toggle('active', parseInt(s.getAttribute('data-step'),10) === n); });
+    advDots.forEach(function(d){ d.classList.toggle('done', parseInt(d.getAttribute('data-dot'),10) <= n - 1); });
+    advBack.style.visibility = n > 1 ? 'visible' : 'hidden';
+  }
+
+  document.querySelectorAll('.adv-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      advAnswers[opt.getAttribute('data-q')] = opt.getAttribute('data-v');
+      if(advCurrent < advSteps.length) showAdvStep(advCurrent + 1);
+      else finishAdvisor();
+    });
+  });
+  advBack.addEventListener('click', function(){ if(advCurrent > 1) showAdvStep(advCurrent - 1); });
+
+  function finishAdvisor(){
+    document.querySelector('.advisor-progress').style.display = 'none';
+    advSteps.forEach(function(s){ s.style.display = 'none'; });
+    var resCard = document.getElementById('advResultCard');
+    resCard.innerHTML = '<h4>Recommended Custom Setup</h4><p>Based on your style (' + (advAnswers.style||'All-round') + ') and level (' + (advAnswers.level||'Beginner') + ').</p>';
+    document.getElementById('advResult').classList.add('active');
+  }
+
+  document.getElementById('qSubmit').addEventListener('click', function(){
+    var name = document.getElementById('qName').value.trim();
+    var phone = document.getElementById('qPhone').value.trim();
+    if(!name || !phone) return;
+    var data = { id: Date.now(), date: new Date().toISOString(), name: name, phone: phone, level: advAnswers.level||'', style: advAnswers.style||'', grip: advAnswers.grip||'' };
+    var leads = loadGearLeads(); leads.unshift(data); saveGearLeads(leads);
+    sendToGoogleSheets("Gear Recommendation", data);
+    document.getElementById('quoteFormWrap').style.display = 'none';
+    document.getElementById('quoteSent').classList.add('show');
+  });
+
+  /* TOURNAMENT FORM */
+  document.getElementById('tournForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var org = document.querySelector('input[name="orgType"]:checked');
+    var data = {
+      id: Date.now(), date: new Date().toISOString(),
+      orgType: org ? org.value : '',
+      name: document.getElementById('tName').value.trim(),
+      phone: document.getElementById('tPhone').value.trim(),
+      venue: document.getElementById('tVenue').value.trim(),
+      participants: document.getElementById('tParticipants').value.trim(),
+      preferredDate: document.getElementById('tDate').value.trim(),
+      notes: document.getElementById('tMsg').value.trim()
+    };
+    var leads = loadTournLeads(); leads.unshift(data); saveTournLeads(leads);
+    sendToGoogleSheets("Tournament Request", data);
+    this.reset(); syncOrgVisual();
+    var msg = document.getElementById('tournMsg'); msg.classList.add('show');
+    setTimeout(function(){ msg.classList.remove('show'); }, 4000);
+  });
+
+  /* CHATBOT */
+  var chatFab = document.getElementById('chatFab');
+  var chatWindow = document.getElementById('chatWindow');
+  var chatBody = document.getElementById('chatBody');
+  var chatInput = document.getElementById('chatInput');
+
+  chatFab.addEventListener('click', function(){ chatWindow.classList.toggle('show'); });
+  document.getElementById('chatClose').addEventListener('click', function(){ chatWindow.classList.remove('show'); });
+
+  document.getElementById('chatForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var text = chatInput.value.trim(); if(!text) return;
+    appendMsg(text, 'user'); chatInput.value = '';
+    var data = { id: Date.now(), date: new Date().toISOString(), message: text };
+    var leads = loadChatLeads(); leads.unshift(data); saveChatLeads(leads);
+    sendToGoogleSheets("Chatbot Query", data);
+    setTimeout(function(){ appendMsg("Thanks for reaching out! A coach will reply shortly.", 'bot'); }, 800);
+  });
+
+  function appendMsg(t, sender){
+    var d = document.createElement('div');
+    d.className = 'chat-msg ' + sender;
+    d.textContent = t;
+    chatBody.appendChild(d);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  /* ADMIN MODAL & PANEL */
+  var loginOverlay = document.getElementById('loginOverlay');
+  document.getElementById('adminLoginLink').addEventListener('click', function(e){ e.preventDefault(); loginOverlay.classList.add('show'); });
+  document.getElementById('closeLogin').addEventListener('click', function(){ loginOverlay.classList.remove('show'); });
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var auth = loadAuth();
+    if(document.getElementById('adminUser').value.trim() === auth.user && document.getElementById('adminPass').value === auth.pass){
+      loginOverlay.classList.remove('show');
+      openAdmin();
+    } else {
+      document.getElementById('loginErr').classList.add('show');
+    }
+  });
+
+  function openAdmin(){
+    document.getElementById('edName').value = state.name;
+    document.getElementById('edTagline').value = state.tagline;
+    document.getElementById('edVision').value = state.vision;
+    document.getElementById('edPhone').value = state.phone;
+    document.getElementById('edEmail').value = state.email;
+    document.getElementById('edAddr').value = state.address;
+    document.getElementById('edWhatsapp').value = state.whatsapp||'';
+    renderRegs(); renderChatLeads(); renderGearLeads(); renderTournLeads();
+    document.getElementById('adminPanel').classList.add('show');
+  }
+
+  document.getElementById('logoutBtn').addEventListener('click', function(){ document.getElementById('adminPanel').classList.remove('show'); });
+  document.getElementById('previewSite').addEventListener('click', function(){ document.getElementById('adminPanel').classList.remove('show'); });
+
+  document.querySelectorAll('.admin-tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.admin-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.admin-section').forEach(function(s){ s.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelector('[data-panel="' + btn.getAttribute('data-tab') + '"]').classList.add('active');
+    });
+  });
+
+  document.getElementById('saveAll').addEventListener('click', function(){
+    state.name = document.getElementById('edName').value.trim();
+    state.tagline = document.getElementById('edTagline').value.trim();
+    state.vision = document.getElementById('edVision').value.trim();
+    state.phone = document.getElementById('edPhone').value.trim();
+    state.email = document.getElementById('edEmail').value.trim();
+    state.address = document.getElementById('edAddr').value.trim();
+    state.whatsapp = document.getElementById('edWhatsapp').value.trim();
+
+    var pass = document.getElementById('edAdminPass').value;
+    if(pass){
+      var auth = loadAuth(); auth.user = document.getElementById('edAdminUser').value.trim(); auth.pass = pass;
+      saveAuth(auth);
+    }
+    saveData(state); renderPublic(); showToast("Saved changes!");
+  });
+
+  function renderRegs(){
+    var regs = loadRegs(); document.getElementById('regCount').textContent = regs.length + ' registrations';
+    document.getElementById('regList').innerHTML = regs.map(function(r){
+      return '<div class="reg-row"><div class="rname">' + escapeHtml(r.name) + ' (' + escapeHtml(r.category) + ')</div><div class="rmeta">' + escapeHtml(r.phone) + ' | ' + escapeHtml(r.batch) + '</div></div>';
+    }).join('') || '<div class="empty">No registrations.</div>';
+  }
+  function renderChatLeads(){
+    var leads = loadChatLeads(); document.getElementById('chatLeadCount').textContent = leads.length + ' chat leads';
+    document.getElementById('chatLeadList').innerHTML = leads.map(function(l){
+      return '<div class="reg-row"><div class="rname">' + escapeHtml(l.message) + '</div></div>';
+    }).join('') || '<div class="empty">No chat leads.</div>';
+  }
+  function renderGearLeads(){
+    var leads = loadGearLeads(); document.getElementById('gearLeadCount').textContent = leads.length + ' requests';
+    document.getElementById('gearLeadList').innerHTML = leads.map(function(g){
+      return '<div class="reg-row"><div class="rname">' + escapeHtml(g.name) + ' (' + escapeHtml(g.phone) + ')</div></div>';
+    }).join('') || '<div class="empty">No gear requests.</div>';
+  }
+  function renderTournLeads(){
+    var leads = loadTournLeads(); document.getElementById('tournLeadCount').textContent = leads.length + ' requests';
+    document.getElementById('tournLeadList').innerHTML = leads.map(function(t){
+      return '<div class="reg-row"><div class="rname">' + escapeHtml(t.name) + ' - ' + escapeHtml(t.venue) + '</div></div>';
+    }).join('') || '<div class="empty">No tournament requests.</div>';
+  }
+
+  renderPublic();
+})();
+</script>
+</body>
+</html>
