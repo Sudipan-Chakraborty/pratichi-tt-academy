@@ -1698,7 +1698,9 @@
 
     (function setMinDate(){
       var t = new Date();
-      dateEl.min = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+      var dec1 = new Date(t.getFullYear(), 11, 1);
+      var floor = t > dec1 ? t : dec1;
+      dateEl.min = floor.getFullYear() + '-' + String(floor.getMonth() + 1).padStart(2, '0') + '-' + String(floor.getDate()).padStart(2, '0');
     })();
 
     phoneEl.addEventListener('input', function(){
@@ -1719,7 +1721,7 @@
       if(!isValidName(name)){ showHtError('Please enter your full name.'); nameEl.focus(); return; }
       if(!isValidPhone(phone)){ showHtError('Enter a valid 10-digit mobile number.'); phoneEl.focus(); return; }
       if(!date){ showHtError('Please pick a preferred trial date.'); dateEl.focus(); return; }
-      if(date < dateEl.min){ showHtError('Please choose a date from today onward.'); dateEl.focus(); return; }
+      if(date < dateEl.min){ showHtError('Trial slots open from 1st December — please pick a date on or after that.'); dateEl.focus(); return; }
 
       showHtError('');
       var record = { id: Date.now(), date: new Date().toISOString(), name: name, phone: phone, trialDate: date };
