@@ -271,6 +271,7 @@
     background:rgba(255,255,255,.045);border:1.5px solid rgba(225,66,50,.4);
     border-radius:16px;padding:17px 20px 18px;
   }
+  .hero-trial-card{scroll-margin-top:84px;}
   .hero-trial-card h4{font-family:var(--font-body);font-size:16.5px;font-weight:800;color:var(--ball-white);margin:0 0 5px;}
   .hero-trial-card .htc-sub{font-size:12.5px;color:rgba(251,248,241,.7);line-height:1.4;margin-bottom:12px;}
   .htc-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:6px;}
@@ -480,6 +481,15 @@
   }
   .bottomnav a.active{color:var(--paddle-red);}
   .bottomnav svg{width:21px;height:21px;}
+  /* Highlighted centre buttons: Join + Free Trial */
+  .bottomnav a.bn-cta{
+    flex:0 0 auto;min-width:64px;margin:0 3px;padding:6px 10px;border-radius:12px;
+    color:var(--ball-white);font-weight:800;
+  }
+  .bottomnav a.bn-join{background:linear-gradient(135deg,var(--paddle-red),var(--paddle-red-dark));box-shadow:0 6px 14px -6px rgba(178,46,34,.7);}
+  .bottomnav a.bn-trial{background:linear-gradient(135deg,var(--gold),#a1701f);color:#2a1c05;box-shadow:0 6px 14px -6px rgba(169,117,30,.7);}
+  .bottomnav a.bn-cta.active{color:var(--ball-white);}
+  .bottomnav a.bn-trial.active{color:#2a1c05;}
 
   /* MODAL / ADMIN */
   .overlay{
@@ -722,8 +732,8 @@
   </div>
 </section>
 
-<!-- ACADEMY GALLERY -->
-<section class="gallery" id="gallery">
+<!-- ACADEMY GALLERY — HIDDEN until photos/videos are ready. To re-enable, delete the "hidden" attribute and the inline style below. -->
+<section class="gallery" id="gallery" hidden style="display:none;">
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow on-dark">See It For Yourself</div>
@@ -773,8 +783,8 @@
         <div class="venue-step">
           <h4>2. Full Day or Custom Hours?</h4>
           <div class="venue-type-toggle">
-            <button type="button" class="venue-type-btn active" data-type="fullday" id="venueTypeFull">Full Day (8 hrs)</button>
-            <button type="button" class="venue-type-btn" data-type="custom" id="venueTypeCustom">Custom Hours</button>
+            <button type="button" class="venue-type-btn" data-type="fullday" id="venueTypeFull">Full Day (8 hrs)</button>
+            <button type="button" class="venue-type-btn active" data-type="custom" id="venueTypeCustom">Custom Hours</button>
           </div>
         </div>
 
@@ -790,7 +800,7 @@
               <select id="venueStart"></select>
             </div>
           </div>
-          <div class="venue-row2" id="venueDurationRow" style="display:none;margin-top:10px;">
+          <div class="venue-row2" id="venueDurationRow" style="margin-top:10px;">
             <div class="field" style="margin-bottom:0;">
               <label>Duration</label>
               <select id="venueDuration"></select>
@@ -857,7 +867,7 @@
     <div class="sec-head">
       <div class="eyebrow">Community &amp; Outreach</div>
       <h2>Want us to host a tournament at your school or housing society?</h2>
-      <p>We bring the coach, the equipment, scoring and a format that fits your group — knockout, round robin, or a mixed fun format for all ages. Share a few details below and our team will call you back to work out the specifics.</p>
+      <p>We bring the coach, the equipment, tables, scoring and a format that fits your group — knockout, round robin, or a mixed fun format for all ages. Share a few details below and our team will call you back to work out the specifics.</p>
     </div>
 
     <div class="tourn-grid">
@@ -1033,21 +1043,21 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8" stroke-linecap="round"/><circle cx="12" cy="12" r="2.5"/></svg>
     Vision
   </a>
+  <a href="#register" class="bn-cta bn-join" data-sec="register">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+    Join
+  </a>
+  <a href="#heroTrialCard" class="bn-cta bn-trial" id="bnFreeTrial">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4M9 15l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Free Trial
+  </a>
   <a href="#programs" data-sec="programs">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3.5L20 8l-8 4.5L4 8l8-4.5z" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 12l8 4.5L20 12" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16l8 4.5L20 16" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Plans
   </a>
-  <a href="#coach" data-sec="coach">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7" stroke-linecap="round"/></svg>
-    Coach
-  </a>
   <a href="#venue" data-sec="venue">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Venue
-  </a>
-  <a href="#register" data-sec="register">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
-    Join
   </a>
 </nav>
 
@@ -1464,11 +1474,11 @@
 
     var VENUE_OPEN_MIN = 6 * 60;   // 06:00
     var VENUE_CLOSE_MIN = 21 * 60; // 21:00
-    var PRICE_PER_HOUR_PER_TABLE = 250;
+    var PRICE_PER_HOUR_PER_TABLE = 350;
     var PRICE_FULL_DAY_PER_TABLE = 1600;
 
     var selectedTables = [];
-    var bookingType = 'fullday';
+    var bookingType = 'custom';
     var cart = [];
 
     var tableOpts = Array.prototype.slice.call(document.querySelectorAll('#venueTables .venue-table-opt'));
@@ -1655,13 +1665,14 @@
       cartListEl.innerHTML = cart.map(function(b){
         return '<div class="venue-cart-item">' +
           '<div class="vc-info"><b>' + escapeHtml(b.tables.join(', ')) + '</b>' + escapeHtml(fmtDate(b.bookingDate)) + ' · ' + escapeHtml(b.timeLabel) +
-          '<div class="vc-price">Est. ' + fmtINR(b.price) + '</div></div>' +
+          (b.type === 'fullday' ? '' : '<div class="vc-price">Est. ' + fmtINR(b.price) + '</div>') + '</div>' +
           '<button type="button" class="vc-remove" data-remove="' + b.cartId + '" aria-label="Remove booking">×</button>' +
         '</div>';
       }).join('');
+      var hasFullDay = cart.some(function(b){ return b.type === 'fullday'; });
       var total = cart.reduce(function(sum, b){ return sum + b.price; }, 0);
       totalAmtEl.textContent = fmtINR(total);
-      totalRow.style.display = 'flex';
+      totalRow.style.display = hasFullDay ? 'none' : 'flex';
       cartListEl.querySelectorAll('[data-remove]').forEach(function(btn){
         btn.addEventListener('click', function(){
           var id = btn.getAttribute('data-remove');
@@ -1709,7 +1720,7 @@
       setTimeout(function(){ sentEl.classList.remove('show'); }, 5000);
     });
 
-    setType('fullday');
+    setType('custom');
   })();
 
   /* HERO — BOOK A FREE TRIAL */
@@ -1900,14 +1911,6 @@
       renderQuickReplies();
     }
   }
-
-  // Gentle nudge: auto-open once per visit after a short delay, unless already dismissed this session.
-  setTimeout(function(){
-    if(!chatStarted && !sessionStorage.getItem('ttacademy_chat_seen')){
-      sessionStorage.setItem('ttacademy_chat_seen', '1');
-      openChat();
-    }
-  }, 6000);
 
   /* ADMIN MODAL & PANEL */
   var loginOverlay = document.getElementById('loginOverlay');
