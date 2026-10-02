@@ -338,10 +338,14 @@
   .hero-info-card .hic-label{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--gold);margin-bottom:6px;}
   .hic-arrow{font-size:13px;transition:transform .18s ease;}
   .hero-info-card--link:hover .hic-arrow{transform:translateX(4px);}
-  .hero-info-card .hic-text{display:block;max-width:100%;font-size:13.5px;font-weight:700;color:var(--ball-white);line-height:1.4;overflow-wrap:anywhere;word-break:break-word;}
-  .hero-contact-card .hic-link{text-decoration:none;}
-  .hero-contact-card .hic-link:hover{color:var(--gold);}
-  .hero-contact-card .hic-link + .hic-link{margin-top:3px;}
+  .hero-info-card .hic-text{display:block;max-width:100%;font-size:13.5px;font-weight:700;color:var(--ball-white);line-height:1.4;overflow-wrap:break-word;word-break:normal;}
+  .hic-row{display:flex;align-items:center;gap:9px;text-decoration:none;min-width:0;}
+  .hic-row + .hic-row{margin-top:8px;}
+  .hic-row:hover{color:var(--gold);}
+  .hic-row .hic-text{min-width:0;}
+  .hic-ic{width:16px;height:16px;flex-shrink:0;color:var(--gold);}
+  .hic-phone .hic-text{font-size:17px;font-weight:800;letter-spacing:.01em;}
+  .hic-email .hic-text{font-size:12.5px;}
 
   /* ACADEMY GALLERY */
   .gallery{background:var(--graphite);color:var(--ball-white);}
@@ -654,8 +658,14 @@
 
         <div class="hero-info-card hero-contact-card">
           <div class="hic-label">Contact Us</div>
-          <a href="tel:" id="heroContactPhone" class="hic-text hic-link">+91 98XXXXXX00</a>
-          <a href="mailto:" id="heroContactEmail" class="hic-text hic-link">connect.pratichitta@gmail.com</a>
+          <a href="tel:" id="heroContactPhone" class="hic-row hic-phone">
+            <svg class="hic-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="hic-text" id="heroContactPhoneText">+91 98XXXXXX00</span>
+          </a>
+          <a href="mailto:" id="heroContactEmail" class="hic-row hic-email">
+            <svg class="hic-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 6.5 12 13l8-6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="hic-text" id="heroContactEmailText">connect.pratichitta@gmail.com</span>
+          </a>
         </div>
       </div>
     </div>
@@ -867,7 +877,7 @@
     <div class="sec-head">
       <div class="eyebrow">Community &amp; Outreach</div>
       <h2>Want us to host a tournament at your school or housing society?</h2>
-      <p>We bring the coach, the equipment, tables, scoring and a format that fits your group — knockout, round robin, or a mixed fun format for all ages. Share a few details below and our team will call you back to work out the specifics.</p>
+      <p>We bring the coach, equipment, scoring and a format that fits your group — knockout, round robin, or a mixed fun format for all ages. Share a few details below and our team will call you back to work out the specifics.</p>
     </div>
 
     <div class="tourn-grid">
@@ -941,7 +951,7 @@
     </div>
     <div class="locate-grid">
       <div class="locate-map">
-        <iframe src="https://www.google.com/maps?q=3rd%20Floor%2C%20CXP%20Building%2C%2099VF%2BVR8%2C%20Road%20No.%201%2C%20Huda%2C%20Alkapoor%2C%20Puppalguda%2C%20Manikonda%2C%20Hyderabad%2C%20Telangana%20500089&z=17&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Pratichi Table Tennis Academy location map"></iframe>
+        <iframe src="https://www.google.com/maps?q=CXP+Alkapur,17.3946541,78.3745829&z=18&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Pratichi Table Tennis Academy location map"></iframe>
       </div>
       <div class="locate-info">
         <h4>Pratichi Table Tennis Academy</h4>
@@ -1354,13 +1364,16 @@
     var heroAddrEl = document.getElementById('heroLocateAddr');
     if(heroAddrEl) heroAddrEl.textContent = state.address;
     var heroPhoneEl = document.getElementById('heroContactPhone');
-    if(heroPhoneEl){
-      heroPhoneEl.textContent = state.phone;
+    var heroPhoneTextEl = document.getElementById('heroContactPhoneText');
+    if(heroPhoneEl && heroPhoneTextEl){
+      heroPhoneTextEl.textContent = state.phone;
       heroPhoneEl.href = 'tel:' + state.phone.replace(/[^\d+]/g,'');
     }
     var heroEmailEl = document.getElementById('heroContactEmail');
-    if(heroEmailEl){
-      heroEmailEl.textContent = state.email;
+    var heroEmailTextEl = document.getElementById('heroContactEmailText');
+    if(heroEmailEl && heroEmailTextEl){
+      // Break only at "@" (never mid-word) so long addresses wrap cleanly inside the card.
+      heroEmailTextEl.innerHTML = escapeHtml(state.email).replace('@', '@<wbr>');
       heroEmailEl.href = 'mailto:' + state.email;
     }
     var waLink = document.getElementById('whatsappLink');
