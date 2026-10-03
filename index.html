@@ -454,12 +454,18 @@
   /* LOCATE US */
   .locate{background:var(--court-green-pale);}
   .locate-grid{display:grid;gap:20px;grid-template-columns:1fr;}
-  @media(min-width:880px){.locate-grid{grid-template-columns:1.1fr .9fr;}}
+  @media(min-width:880px){.locate-grid{grid-template-columns:1.4fr .6fr;align-items:stretch;}}
   .locate-map{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);aspect-ratio:16/11;background:var(--ball-white);}
+  @media(min-width:880px){.locate-map{aspect-ratio:16/9;}}
   .locate-map iframe{width:100%;height:100%;border:0;display:block;}
-  .locate-info{background:var(--ball-white);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px;display:flex;flex-direction:column;justify-content:center;}
-  .locate-info h4{font-family:var(--font-body);font-weight:800;font-size:17px;margin-bottom:10px;}
-  .locate-info p{font-size:14px;color:var(--graphite-soft);line-height:1.6;margin-bottom:6px;}
+  .locate-info{background:var(--ball-white);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;display:flex;flex-direction:column;justify-content:center;min-width:0;overflow:hidden;}
+  .locate-info h4{font-family:var(--font-body);font-weight:800;font-size:16px;margin-bottom:8px;overflow-wrap:anywhere;}
+  .locate-info p{font-size:13.5px;color:var(--graphite-soft);line-height:1.55;margin-bottom:6px;overflow-wrap:anywhere;}
+  .locate-contact{list-style:none;margin:12px 0 0;padding:12px 0 0;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:10px;}
+  .locate-contact a{display:flex;align-items:flex-start;gap:9px;font-size:13px;font-weight:600;color:var(--graphite);text-decoration:none;line-height:1.4;min-width:0;}
+  .locate-contact a:hover{color:var(--paddle-red);}
+  .locate-contact .hic-ic{margin-top:1px;}
+  .locate-contact span{min-width:0;overflow-wrap:anywhere;}
 
   /* FOOTER */
   footer{background:var(--graphite);color:rgba(251,248,241,.75);padding:44px 0 30px;}
@@ -957,6 +963,16 @@
       <div class="locate-info">
         <h4>Pratichi Table Tennis Academy</h4>
         <p id="locateAddr">3rd Floor, CXP Building, Road No. 1, Huda, Alkapoor, Puppalguda, Manikonda, Hyderabad, Telangana 500089</p>
+        <div class="locate-contact">
+          <a href="tel:" id="locatePhone" aria-label="Call us">
+            <svg class="hic-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="locatePhoneText"></span>
+          </a>
+          <a href="mailto:" id="locateEmail" aria-label="Email us">
+            <svg class="hic-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 6.5 12 13l8-6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="locateEmailText"></span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -1066,9 +1082,9 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3.5L20 8l-8 4.5L4 8l8-4.5z" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 12l8 4.5L20 12" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16l8 4.5L20 16" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Plans
   </a>
-  <a href="#venue" data-sec="venue">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Venue
+  <a href="#locate" data-sec="locate">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+    Locate Us
   </a>
 </nav>
 
@@ -1377,6 +1393,16 @@
       heroEmailTextEl.innerHTML = escapeHtml(state.email).replace('@', '@<wbr>');
       heroEmailEl.href = 'mailto:' + state.email;
     }
+    var locPhone = document.getElementById('locatePhone');
+    if(locPhone){
+      document.getElementById('locatePhoneText').textContent = state.phone;
+      locPhone.href = 'tel:' + state.phone.replace(/[^\d+]/g,'');
+    }
+    var locEmail = document.getElementById('locateEmail');
+    if(locEmail){
+      document.getElementById('locateEmailText').innerHTML = escapeHtml(state.email).replace('@', '@<wbr>');
+      locEmail.href = 'mailto:' + state.email;
+    }
     var waLink = document.getElementById('whatsappLink');
     if(waLink && state.whatsapp){
       var waMsg = encodeURIComponent("Hi! I'm interested in " + state.name + ". Please share more details.");
@@ -1417,6 +1443,13 @@
       opt.classList.toggle('checked', opt.querySelector('input').checked);
     });
   }
+  // Choosing a plan card pre-selects the same category in the register form.
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('[data-precat]') : null;
+    if(!btn) return;
+    var radio = document.querySelector('input[name="category"][value="' + btn.getAttribute('data-precat') + '"]');
+    if(radio){ radio.checked = true; syncCatVisual(); }
+  });
   document.addEventListener('change', function(e){
     if(e.target.name === 'category') syncCatVisual();
     if(e.target.name === 'orgType') syncOrgVisual();
