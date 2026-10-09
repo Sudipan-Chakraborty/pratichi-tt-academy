@@ -403,6 +403,41 @@
   .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:#B22E22;background:#FDF3F2;}
   .field.invalid .field-error{display:block;}
 
+  /* SLOT PICKER */
+  .sp{border:1.5px solid var(--line);border-radius:var(--radius);padding:14px;background:#fff;}
+  .sp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+  .sp-title{font-size:13px;font-weight:700;color:var(--graphite);}
+  .sp-count{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--court-green-pale);color:var(--court-green);transition:all .25s;}
+  .sp-count.done{background:var(--court-green);color:#fff;}
+  .sp-bar{height:5px;border-radius:99px;background:var(--line);overflow:hidden;margin-bottom:12px;}
+  .sp-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--court-green-light),var(--paddle-red));transition:width .35s cubic-bezier(.2,.8,.2,1);}
+  .sp-presets{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .sp-presets button,.sp-clear{font:inherit;font-size:12px;font-weight:600;border:1.5px dashed var(--court-green-light);background:transparent;color:var(--court-green);padding:6px 10px;border-radius:999px;cursor:pointer;transition:all .2s;}
+  .sp-presets button:hover,.sp-clear:hover{background:var(--court-green-pale);}
+  .sp-clear{border-style:solid;border-color:var(--line);color:var(--graphite-soft);}
+  .sp-day{display:grid;grid-template-columns:78px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line);align-items:start;transition:opacity .25s;}
+  .sp-day:first-of-type{border-top:0;}
+  .sp-dname{font-weight:700;font-size:14px;line-height:1.2;}
+  .sp-dname small{display:block;font-size:11px;font-weight:600;color:var(--graphite-soft);margin-top:3px;}
+  .sp-day.has .sp-dname small{color:var(--court-green);}
+  .sp-day.closed{opacity:.55;}
+  .sp-day.locked{opacity:.4;}
+  .sp-group{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+  .sp-glabel{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite-soft);width:100%;margin-top:2px;}
+  .sp-glabel:first-child{margin-top:0;}
+  .sp-chip{font:inherit;font-size:12.5px;font-weight:600;border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:7px 10px;cursor:pointer;transition:transform .15s,border-color .2s,background .2s,color .2s;color:var(--graphite);}
+  .sp-chip:hover:not(:disabled){border-color:var(--court-green-light);transform:translateY(-1px);}
+  .sp-chip[aria-pressed="true"]{border-color:var(--paddle-red);background:rgba(225,66,50,.1);color:var(--paddle-red-dark);}
+  .sp-chip:disabled{cursor:not-allowed;color:#aaa;background:#f6f6f6;}
+  .sp-chip:focus-visible,.sp-presets button:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+  .sp-closed{font-size:12.5px;font-weight:600;color:var(--graphite-soft);padding:7px 0;}
+  .sp-summary{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--court-green-pale);font-size:13px;color:var(--court-green);line-height:1.6;display:none;}
+  .sp-summary.show{display:block;}
+  .sp-hours{font-size:11.5px;color:var(--graphite-soft);margin-top:10px;line-height:1.5;}
+  .field.invalid .sp{border-color:#B22E22;background:#FDF3F2;}
+  @media(max-width:480px){.sp-day{grid-template-columns:1fr;gap:6px;}}
+  @media(prefers-reduced-motion:reduce){.sp *{transition:none!important;}}
+
   /* TOURNAMENT HOSTING */
   .tournament{background:var(--court-green-pale);}
   .tourn-grid{display:grid;gap:14px;grid-template-columns:1fr;margin-bottom:30px;}
@@ -984,7 +1019,7 @@
     <div class="sec-head">
       <div class="eyebrow">Join the Academy</div>
       <h2>Register your spot</h2>
-      <p>Pick the category that matches your current playing level. Our coach will confirm your batch after a quick assessment.</p>
+      <p>Pick the category that matches your current playing level. Then pick your preferred weekly slots — our coach will confirm your batch after a quick assessment.</p>
     </div>
     <form class="form-card" id="regForm" novalidate>
       <div class="field">
@@ -998,28 +1033,20 @@
         <div class="field-error" id="rPhoneErr"></div>
       </div>
       <div class="field">
-        <label for="rEmail">Email</label>
-        <input type="email" id="rEmail" placeholder="you@example.com" autocomplete="email">
-        <div class="field-error" id="rEmailErr"></div>
-      </div>
-      <div class="field">
         <label>Category</label>
         <div class="cat-grid" id="catGrid"></div>
       </div>
-      <div class="field">
-        <label for="rBatch">Preferred batch</label>
-        <select id="rBatch">
-          <option value="Morning">Morning</option>
-          <option value="Evening">Evening</option>
-          <option value="Either">Either works</option>
-        </select>
+      <div class="field" id="rSlots">
+        <label>Choose your weekly slots</label>
+        <div class="sp" id="slotPicker" aria-live="polite"></div>
+        <div class="field-error" id="rSlotsErr"></div>
       </div>
       <div class="field">
         <label for="rMsg">Notes (optional)</label>
         <textarea id="rMsg" rows="3" placeholder="Playing experience, goals, injuries, etc."></textarea>
       </div>
       <button type="submit" class="btn btn-primary" style="width:100%;">Submit Registration</button>
-      <div class="form-msg ok" id="regMsg"><span class="fm-check">✓</span> Successfully submitted! Registration received — our coach will call you to confirm your batch.</div>
+      <div class="form-msg ok" id="regMsg"><span class="fm-check">✓</span> Successfully submitted! Registration received — our coach will call you to confirm your slots.</div>
     </form>
   </div>
 </section>
@@ -1320,7 +1347,7 @@
     });
   });
   // Clear error state as the person corrects other fields.
-  ['qName', 'tName', 'tVenue', 'rName', 'rEmail', 'vName'].forEach(function(id){
+  ['qName', 'tName', 'tVenue', 'rName', 'vName'].forEach(function(id){
     var el = document.getElementById(id);
     if(!el) return;
     el.addEventListener('input', function(){ setFieldError(id, ''); });
@@ -1431,6 +1458,7 @@
       '</label>';
     }).join('');
     syncCatVisual();
+    if(typeof SP!=='undefined' && SP) SP.render();
   }
 
   function syncCatVisual(){
@@ -1448,40 +1476,141 @@
     var btn = e.target.closest ? e.target.closest('[data-precat]') : null;
     if(!btn) return;
     var radio = document.querySelector('input[name="category"][value="' + btn.getAttribute('data-precat') + '"]');
-    if(radio){ radio.checked = true; syncCatVisual(); }
+    if(radio){ radio.checked = true; syncCatVisual(); if(SP) SP.render(); }
   });
   document.addEventListener('change', function(e){
     if(e.target.name === 'category') syncCatVisual();
     if(e.target.name === 'orgType') syncOrgVisual();
   });
 
+  /* SMART SLOT PICKER */
+  var SP = (function(){
+    var DAYS = [
+      {k:'Mon',n:'Monday'},{k:'Tue',n:'Tuesday'},{k:'Wed',n:'Wednesday'},
+      {k:'Thu',n:'Thursday',closed:true},{k:'Fri',n:'Friday'},{k:'Sat',n:'Saturday'},
+      {k:'Sun',n:'Sunday',sun:true}
+    ];
+    // Hour-long slots as [startHour24]; weekdays: 6-8 AM, 5-10 PM; Sunday: 8-11 AM only.
+    var WEEKDAY = {Morning:[6,7], Evening:[17,18,19,20,21]};
+    var SUNDAY = {Morning:[8,9,10]};
+    var REQUIRED = {three_day:3, five_day:5, personal:3};
+    var sel = {}; // dayKey -> start hour
+    function fmt(h){ var h12 = h%12===0?12:h%12; return h12 + ':00 ' + (h<12?'AM':'PM'); }
+    function range(h){ var a=h, b=h+1, ap=a<12?'AM':'PM', bp=b<12||b===24?'AM':'PM'; var a12=a%12||12, b12=b%12||12; return a12 + (ap!==bp?' '+ap:'') + '–' + b12 + ' ' + bp; }
+    function req(){
+      var c = document.querySelector('input[name="category"]:checked');
+      return REQUIRED[c ? c.value : 'three_day'] || 3;
+    }
+    function dayObj(k){ return DAYS.filter(function(d){return d.k===k;})[0]; }
+    function count(){ return Object.keys(sel).length; }
+    function period(h){ return h<12 ? 'Morning' : 'Evening'; }
+    function toggle(k,h){
+      if(sel[k]===h){ delete sel[k]; }
+      else if(sel[k]===undefined && count()>=req()){ return; }
+      else { sel[k]=h; }
+      render();
+    }
+    function trim(){ // keep within limit when category changes (keep earliest days in week order)
+      var r=req(), n=0;
+      DAYS.forEach(function(d){ if(sel[d.k]!==undefined){ n++; if(n>r) delete sel[d.k]; } });
+    }
+    function preset(kind){
+      sel = {};
+      var r=req(), order = ['Mon','Tue','Wed','Fri','Sat'];
+      var h = kind==='morning' ? 6 : 18;
+      var pick = r===3 ? ['Mon','Wed','Fri'] : order;
+      pick.slice(0,r).forEach(function(k){ sel[k]=h; });
+      render();
+    }
+    function groupHtml(d, label, hours){
+      var locked = sel[d.k]===undefined && count()>=req();
+      return '<div class="sp-glabel">'+label+'</div>' + hours.map(function(h){
+        var on = sel[d.k]===h;
+        return '<button type="button" class="sp-chip" data-day="'+d.k+'" data-h="'+h+'" aria-pressed="'+on+'"'+(locked?' disabled':'')+
+          ' aria-label="'+d.n+' '+range(h)+'">'+range(h)+'</button>';
+      }).join('');
+    }
+    function render(){
+      var host = document.getElementById('slotPicker'); if(!host) return;
+      trim();
+      var r=req(), n=count();
+      var html = '<div class="sp-head"><div class="sp-title">Pick <b>'+r+'</b> days · one 1-hour slot per day</div>'+
+        '<span class="sp-count'+(n===r?' done':'')+'">'+n+' / '+r+' chosen</span></div>'+
+        '<div class="sp-bar"><i style="width:'+Math.round(n/r*100)+'%"></i></div>'+
+        '<div class="sp-presets"><button type="button" data-preset="evening">⚡ Evenings · 6 PM</button>'+
+        '<button type="button" data-preset="morning">☀ Mornings · 6 AM</button>'+
+        '<button type="button" class="sp-clear" data-preset="clear">Clear</button></div>';
+      DAYS.forEach(function(d){
+        var has = sel[d.k]!==undefined;
+        var locked = !has && n>=r && !d.closed;
+        html += '<div class="sp-day'+(d.closed?' closed':'')+(has?' has':'')+(locked?' locked':'')+'">'+
+          '<div class="sp-dname">'+d.n+'<small>'+(d.closed?'Closed':has?range(sel[d.k]):locked?'Limit reached':'Available')+'</small></div><div class="sp-group">';
+        if(d.closed){ html += '<span class="sp-closed">Closed all day</span>'; }
+        else if(d.sun){ html += groupHtml(d,'Morning · 8–11 AM',SUNDAY.Morning); }
+        else { html += groupHtml(d,'Morning · 6–8 AM',WEEKDAY.Morning) + groupHtml(d,'Evening · 5–10 PM',WEEKDAY.Evening); }
+        html += '</div></div>';
+      });
+      var items = DAYS.filter(function(d){return sel[d.k]!==undefined;}).map(function(d){return '<b>'+d.k+'</b> '+range(sel[d.k]);});
+      html += '<div class="sp-summary'+(items.length?' show':'')+'">Your week: '+items.join(' · ')+'</div>'+
+        '<div class="sp-hours">Mon–Sat: 6–8 AM &amp; 5–10 PM · Thursday closed · Sunday 8–11 AM only. 1:1 Personal Coaching counts as 3 days a week.</div>';
+      host.innerHTML = html;
+      if(n===r) setFieldError('rSlots','');
+    }
+    function reset(){ sel = {}; render(); }
+    function value(){
+      var keys = DAYS.filter(function(d){return sel[d.k]!==undefined;});
+      var periods = {};
+      keys.forEach(function(d){ periods[period(sel[d.k])]=1; });
+      var pk = Object.keys(periods);
+      return {
+        valid: keys.length===req(),
+        needed: req(),
+        slots: keys.map(function(d){return d.n+' '+range(sel[d.k]);}).join('; '),
+        days: keys.map(function(d){return d.k;}).join(','),
+        slotCount: keys.length,
+        batch: pk.length>1 ? 'Mixed' : (pk[0]||'')
+      };
+    }
+    document.addEventListener('click', function(e){
+      var t = e.target.closest ? e.target.closest('#slotPicker button') : null; if(!t) return;
+      if(t.hasAttribute('data-preset')){ var p=t.getAttribute('data-preset'); if(p==='clear') reset(); else preset(p); return; }
+      if(t.hasAttribute('data-day')) toggle(t.getAttribute('data-day'), parseInt(t.getAttribute('data-h'),10));
+    });
+    document.addEventListener('change', function(e){ if(e.target.name==='category') render(); });
+    return {render:render, reset:reset, value:value};
+  })();
+  SP.render();
+
   /* REGISTRATION FORM */
   document.getElementById('regForm').addEventListener('submit', function(e){
     e.preventDefault();
     var name = document.getElementById('rName').value.trim();
     var phone = document.getElementById('rPhone').value.trim();
-    var email = document.getElementById('rEmail').value.trim();
     var firstInvalid = null, ok = true;
 
     if(!isValidName(name)){ setFieldError('rName', 'Please enter a valid full name (letters only, at least 2 characters).'); ok = false; firstInvalid = firstInvalid || 'rName'; } else { setFieldError('rName', ''); }
     if(!isValidPhone(phone)){ setFieldError('rPhone', 'Enter a valid 10-digit mobile number (numbers only, no +91).'); ok = false; firstInvalid = firstInvalid || 'rPhone'; } else { setFieldError('rPhone', ''); }
-    if(email && !isValidEmail(email)){ setFieldError('rEmail', 'Enter a valid email address.'); ok = false; firstInvalid = firstInvalid || 'rEmail'; } else { setFieldError('rEmail', ''); }
 
-    if(!ok){ focusField(firstInvalid); return; }
+    var sv = SP.value();
+    if(!sv.valid){ setFieldError('rSlots', 'Please choose exactly ' + sv.needed + ' days with one slot each (' + sv.slotCount + ' chosen so far).'); ok = false; var sb=document.querySelector('#slotPicker button:not(:disabled)'); if(!firstInvalid){ firstInvalid = 'rSlots'; document.getElementById('slotPicker').scrollIntoView({behavior:'smooth',block:'center'}); } } else { setFieldError('rSlots',''); }
+
+    if(!ok){ if(firstInvalid!=='rSlots') focusField(firstInvalid); return; }
 
     var cat = document.querySelector('input[name="category"]:checked');
     var data = {
       id: Date.now(), date: new Date().toISOString(),
       name: name,
       phone: phone,
-      email: email,
       category: cat ? cat.value : '',
-      batch: document.getElementById('rBatch').value,
+      batch: sv.batch,
+      slots: sv.slots,
+      slotDays: sv.days,
+      slotCount: sv.slotCount,
       notes: document.getElementById('rMsg').value.trim()
     };
     var regs = loadRegs(); regs.unshift(data); saveRegs(regs);
     sendToGoogleSheets("Registration", data);
-    this.reset(); syncCatVisual();
+    this.reset(); syncCatVisual(); SP.reset();
     var msg = document.getElementById('regMsg'); msg.classList.add('show');
     showToast('✅ Successfully submitted!');
     renderFoundingOffer();
@@ -2026,7 +2155,7 @@
   function renderRegs(){
     var regs = loadRegs(); document.getElementById('regCount').textContent = regs.length + ' registrations';
     document.getElementById('regList').innerHTML = regs.map(function(r){
-      return '<div class="reg-row"><div class="rname">' + escapeHtml(r.name) + ' (' + escapeHtml(r.category) + ')</div><div class="rmeta">' + escapeHtml(r.phone) + ' | ' + escapeHtml(r.batch) + '</div></div>';
+      return '<div class="reg-row"><div class="rname">' + escapeHtml(r.name) + ' (' + escapeHtml(r.category) + ')</div><div class="rmeta">' + escapeHtml(r.phone) + ' | ' + escapeHtml(r.batch) + (r.slots ? ' | ' + escapeHtml(r.slots) : '') + '</div></div>';
     }).join('') || '<div class="empty">No registrations.</div>';
   }
   function renderChatLeads(){
